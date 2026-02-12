@@ -30,7 +30,7 @@ ORM Entity Framework Core
 
 Перенаправление — /r/{shortcode} → оригинальный URL
 
-Копирование — one-click в буфер обмена
+Копирование — перенос в буфер обмена
 
 Админ-панель (CRUD):
 
@@ -42,14 +42,6 @@ UPDATE
 
 DELETE
 
-AJAX без перезагрузки — мгновенное редактирование
-
-AntiForgeryToken — защита от CSRF
-
-База данных
-
-MySQL / MariaDB
-
 Технологический стек 
 
 Backend: ASP.NET Core Razor Pages (.NET 10)
@@ -58,9 +50,7 @@ ORM: Entity Framework Core 10 (MySQL)
 
 База данных: MySQL/MariaDB
 
-Frontend: Bootstrap 5 + Font Awesome 6 + JavaScript
-
-AJAX: Fetch API + AntiForgeryToken
+Frontend: Bootstrap 5 + JavaScript
 
 Менеджер зависимостей: NuGet
 
