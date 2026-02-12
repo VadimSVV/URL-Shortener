@@ -53,5 +53,28 @@ namespace URLShortener.Pages
             await OnGetAsync();
             return Page();
         }
+        public async Task<IActionResult> OnGetDeleteAsync(int id)
+        {
+            var shortLink = await _context.ShortLinks.FindAsync(id);
+            if (shortLink != null)
+            {
+                _context.ShortLinks.Remove(shortLink);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToPage();
+        }
+
+        public async Task<IActionResult> OnGetEditAsync(int id)
+        {
+            var shortLink = await _context.ShortLinks.FindAsync(id);
+            if (shortLink != null)
+            {
+                OriginalUrl = shortLink.OriginalUrl;
+                ShortUrl = $"http://localhost:5042/{shortLink.ShortCode}"; // ✅ Показываем текущую короткую ссылку
+                TempData["EditMode"] = true; // ✅ Для визуальной индикации
+            }
+            await OnGetAsync();
+            return Page();
+        }
     }
 }
