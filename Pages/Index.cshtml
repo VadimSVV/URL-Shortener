@@ -1,10 +1,25 @@
 ﻿@page
 @model IndexModel
-@{
-    ViewData["Title"] = "Home page";
+<h1>🔗 URL Shortener</h1>
+
+<form method="post">
+    <input asp-for="OriginalUrl" placeholder="https://example.com" />
+    <button type="submit">Сократить</button>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.ShortUrl))
+{
+    <p>Короткая ссылка: <a href="@Model.ShortUrl">@Model.ShortUrl</a></p>
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h3>Последние ссылки:</h3>
+<table>
+    @foreach (var link in Model.Links)
+    {
+        <tr>
+            <td>@link.ShortCode</td>
+            <td>@link.OriginalUrl</td>
+            <td>@link.ClickCount</td>
+        </tr>
+    }
+</table>
