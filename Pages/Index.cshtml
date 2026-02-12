@@ -11,18 +11,11 @@
 </head>
 <body>
     <div class="container mt-5">
-        <!-- ФОРМА (остается без изменений) -->
+        
         <h1 class="mb-4"><i class="fas fa-link text-primary"></i> URL Shortener</h1>
         <div class="card mb-4 shadow">
             <div class="card-body">
-                                @if (TempData["EditMode"] != null)
-                {
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <i class="fas fa-edit me-2"></i>
-                        <strong>Режим редактирования!</strong> Измените URL и нажмите "Сократить"
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                }
+
                 <form method="post">
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-globe"></i></span>
@@ -48,7 +41,7 @@
             </div>
         </div>
 
-        <!-- ТАБЛИЦА -->
+        
         <h3 class="mb-3"><i class="fas fa-list text-info"></i> Последние сокращения (10)</h3>
         <div class="table-responsive">
             <table class="table table-hover table-striped">
@@ -68,18 +61,20 @@
                             <td><span class="badge bg-primary">@link.ClickCount</span></td>
                             <td>@link.CreatedAt.ToString("dd.MM HH:mm")</td>
                             <td class="text-center">
-                                <!-- ✅ Edit СЛЕВА (было справа) -->
-                                <a asp-page-handler="Edit" asp-route-id="@link.Id" 
-                                class="btn btn-sm btn-warning me-1" title="Изменить">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <!-- ✅ Delete СПРАВА (было слева) -->
-                                <a asp-page-handler="Delete" asp-route-id="@link.Id" 
-                                class="btn btn-sm btn-danger" 
-                                onclick="return confirm('Удалить?')">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <!--  Edit  -->
+                                    <button type="button" onclick="editLink(@link.Id, '@Html.Raw(link.OriginalUrl.Replace("'", "\\'"))'); event.stopPropagation(); event.preventDefault();" 
+                                            class="btn btn-warning" title="Изменить">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    
+                                    <!--  Delete  -->
+                                    <a asp-page-handler="Delete" asp-route-id="@link.Id" 
+                                    class="btn btn-danger" onclick="return confirm('Удалить?')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>  
+                            </td>      
                         </tr>
                     }
                 </tbody>
@@ -87,27 +82,58 @@
         </div>
     </div>
 
-    <!-- ✅ АНТИФОРГЕРИ ТОКЕН (ОБЯЗАТЕЛЬНО ДЛЯ POST AJAX) -->
+    
     <form method="post" style="display:none;">
         @Html.AntiForgeryToken()
     </form>
 
-    <!-- ✅ JAVASCRIPT CRUD -->
+    
     <script>
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Скопировано!');
-            }).catch(() => {
-                // Fallback
-                const el = document.createElement('textarea');
-                el.value = text;
-                document.body.appendChild(el);
-                el.select();
-                document.execCommand('copy');
-                document.body.removeChild(el);
-                alert('Скопировано!');
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert('Скопировано!');
+    }).catch(() => {
+        
+        const el = document.createElement('textarea');
+        el.value = text;
+        el.setAttribute('readonly', '');
+        el.style.position = 'absolute';
+        el.style.left = '-9999px';
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        alert('Скопировано!');
+    });
+}
+
+async function editLink(id, url) {
+    const newUrl = prompt('Новый URL:', url);
+    if (newUrl && newUrl !== url) {
+        try {
+            
+            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+            
+            const response = await fetch(`?handler=Update`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': token  
+                },
+                body: JSON.stringify({ id: id, originalUrl: newUrl })
             });
+            
+            if (response.ok) {
+                location.reload();
+            } else {
+                const errorText = await response.text();  
+                alert(`Ошибка ${response.status}: ${errorText}`);
+            }
+        } catch (error) {
+            alert('Ошибка сети');
         }
+    }
+}
     </script>
 </body>
 </html>

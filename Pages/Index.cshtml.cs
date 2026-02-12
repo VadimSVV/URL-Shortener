@@ -70,11 +70,42 @@ namespace URLShortener.Pages
             if (shortLink != null)
             {
                 OriginalUrl = shortLink.OriginalUrl;
-                ShortUrl = $"http://localhost:5042/{shortLink.ShortCode}"; // ✅ Показываем текущую короткую ссылку
-                TempData["EditMode"] = true; // ✅ Для визуальной индикации
+                ShortUrl = $"http://localhost:5042/{shortLink.ShortCode}"; 
             }
             await OnGetAsync();
             return Page();
         }
+public async Task<IActionResult> OnPostUpdateAsync([FromBody] UpdateRequest request)
+{
+    try 
+    {
+        Console.WriteLine($"🔄 Update id={request.Id}, url={request.OriginalUrl}");
+        
+        var shortLink = await _context.ShortLinks.FindAsync(request.Id);
+        if (shortLink != null)
+        {
+            shortLink.OriginalUrl = request.OriginalUrl;
+            await _context.SaveChangesAsync();
+            Console.WriteLine(" Update OK");
+            return new JsonResult(new { success = true });
+        }
+        else
+        {
+            Console.WriteLine("❌ Record not found");
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"❌ Update error: {ex.Message}");
+    }
+    return new JsonResult(new { success = false });
+}
+
+
+public class UpdateRequest
+{
+    public int Id { get; set; }
+    public string OriginalUrl { get; set; } = "";
+}
     }
 }
