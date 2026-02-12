@@ -49,29 +49,32 @@ AntiForgeryToken — защита от CSRF
 База данных
 
 MySQL / MariaDB
-Таблица ShortLinks:
-Id (PK)
-OriginalUrl (VARCHAR 2048)
-ShortCode (VARCHAR 7, UNIQUE)  
-ClickCount (INT)
-CreatedAt (DATETIME)
+
 Технологический стек 
 
 Backend: ASP.NET Core Razor Pages (.NET 10)
-ORM: Entity Framework Core 10 (MySQL)
-База данных: MySQL/MariaDB
-Frontend: Bootstrap 5 + Font Awesome 6 + JavaScript
-AJAX: Fetch API + AntiForgeryToken
-Менеджер зависимостей: NuGet
-Контроль версий: Git
-Запуск проекта ⚡
 
-# 1. Восстановить пакеты
+ORM: Entity Framework Core 10 (MySQL)
+
+База данных: MySQL/MariaDB
+
+Frontend: Bootstrap 5 + Font Awesome 6 + JavaScript
+
+AJAX: Fetch API + AntiForgeryToken
+
+Менеджер зависимостей: NuGet
+
+Контроль версий: Git
+
+Запуск проекта
+
+1. Восстановить пакеты
 dotnet restore
 
-# 2. Миграции БД (создать/обновить таблицы)
+2. Миграции БД (создать/обновить таблицы)
 dotnet ef database update
 
-# 3. Запуск
+3. Запуск
 dotnet run
+
 Доступ: http://localhost:5042
