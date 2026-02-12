@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using URLShortener.Data;
+using URLShortener.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
 
 ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
+
+builder.Services.AddScoped<UrlShorteningService>();
 
 var app = builder.Build();
 
