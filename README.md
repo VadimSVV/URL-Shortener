@@ -34,13 +34,13 @@ ORM Entity Framework Core
 
 Админ-панель (CRUD):
 
-CREATE — создание новых коротких ссылок
+CREATE
 
-READ — таблица последних 10 ссылок
+READ
 
-UPDATE — inline редактирование URL (prompt + AJAX)
+UPDATE
 
-DELETE — удаление с подтверждением
+DELETE
 
 AJAX без перезагрузки — мгновенное редактирование
 
