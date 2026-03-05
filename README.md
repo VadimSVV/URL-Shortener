@@ -1,4 +1,4 @@
-URLShortener — ASP.NET Core
+URLShortener - ASP.NET Core
 
 Описание проекта
 
