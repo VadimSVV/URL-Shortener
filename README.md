@@ -20,7 +20,7 @@ ORM Entity Framework Core
 
 Менеджер зависимостей NuGet
 
-Среда разработки .NET 10
+Среда разработки .NET 
 
 Реализованный функционал:
 
@@ -44,9 +44,9 @@ DELETE
 
 Технологический стек 
 
-Backend: ASP.NET Core Razor Pages (.NET 10)
+Backend: ASP.NET Core Razor Pages
 
-ORM: Entity Framework Core 10 (MySQL)
+ORM: Entity Framework Core (MySQL)
 
 База данных: MySQL/MariaDB
 
