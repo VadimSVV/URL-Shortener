@@ -1,7 +1,5 @@
 URLShortener - ASP.NET Core
 
-Описание проекта
-
 Web-приложение URLShortener на платформе ASP.NET Core Razor Pages. Полноценный сервис сокращения ссылок с админ-панелью (Backend)
 
 Примечания:
